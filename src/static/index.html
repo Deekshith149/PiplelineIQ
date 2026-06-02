@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered CI/CD Log Analyzer Dashboard</title>
+    <!-- Modern Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Vanilla CSS Stylesheet -->
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Premium Animated Header -->
+        <header class="app-header">
+            <div class="header-logo">
+                <span class="logo-icon">⚡</span>
+                <h1 class="logo-text">CI/CD Log <span class="accent-text">Analyzer AI</span></h1>
+            </div>
+            <div class="system-status" id="system-status-badge">
+                <span class="status-dot pulsing"></span>
+                <span class="status-label">Initializing system...</span>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Grid Layout -->
+        <main class="dashboard-grid">
+            
+            <!-- Left Panel: Ingest & Upload -->
+            <section class="control-panel glass-card">
+                <div class="card-header">
+                    <h2>Ingest CI/CD Log</h2>
+                    <p class="subtitle">Upload pipeline logs to analyze root causes and generate instant remediation fixes.</p>
+                </div>
+
+                <!-- Input Mode Tabs -->
+                <div class="tabs-container">
+                    <button class="tab-btn active" id="btn-tab-upload">📁 Upload File</button>
+                    <button class="tab-btn" id="btn-tab-text">📝 Raw Log Text</button>
+                    <button class="tab-btn" id="btn-tab-github">🐙 GitHub Actions</button>
+                </div>
+
+                <!-- File Upload Tab Panel -->
+                <div class="tab-content" id="panel-tab-upload">
+                    <div class="upload-dropzone" id="log-dropzone">
+                        <input type="file" id="log-file-input" accept=".log,.txt,text/*" style="display: none;">
+                        <div class="dropzone-prompt">
+                            <span class="upload-icon">📤</span>
+                            <p class="dropzone-text">Drag and drop log file here or <span class="highlight">browse files</span></p>
+                            <p class="file-limits">Supports log, txt (Max 5MB)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Raw Text Tab Panel -->
+                <div class="tab-content hidden" id="panel-tab-text">
+                    <textarea id="log-text-input" placeholder="Paste raw CI/CD console outputs here..." class="raw-textarea"></textarea>
+                </div>
+
+                <!-- GitHub Actions Tab Panel -->
+                <div class="tab-content hidden" id="panel-tab-github">
+                    <!-- Logged Out Card View -->
+                    <div class="github-auth-card" id="github-logged-out">
+                        <div class="github-icon-glow">🐙</div>
+                        <h3>Connect to GitHub Actions</h3>
+                        <p class="subtitle text-center" style="margin-bottom: 16px;">Log in to retrieve and analyze pipeline logs directly from your runs.</p>
+                        
+                        <button id="btn-github-oauth-login" class="btn-github-primary">
+                            <span class="btn-github-icon">🐙</span>
+                            <span>Sign In with GitHub</span>
+                        </button>
+                        
+                        <div class="auth-divider">
+                            <span>or</span>
+                        </div>
+                        
+                        <div class="pat-login-group">
+                            <div class="pat-header" id="btn-toggle-pat-form">
+                                <span>🔑 Use Personal Access Token</span>
+                                <span class="pat-arrow" id="pat-toggle-arrow">▼</span>
+                            </div>
+                            <div class="pat-form hidden" id="github-pat-form">
+                                <p class="pat-tip">Generate a PAT with <code>repo</code> and <code>read:user</code> scopes, then enter it below. Useful for local setups.</p>
+                                <div class="pat-input-row">
+                                    <input type="password" id="github-pat-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="theme-input pat-textbox">
+                                    <button id="btn-github-pat-login" class="btn-secondary pat-btn">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logged In Workspace view -->
+                    <div class="github-dashboard-container hidden" id="github-logged-in">
+                        <!-- User Header Profile Bar -->
+                        <div class="github-user-bar">
+                            <div class="github-user-profile">
+                                <img id="github-avatar" src="" alt="Avatar" class="avatar-bubble">
+                                <div class="github-user-info">
+                                    <span class="github-username" id="github-username">octocat</span>
+                                    <span class="github-connected-label">Connected</span>
+                                </div>
+                            </div>
+                            <button id="btn-github-logout" class="github-btn-logout">Disconnect</button>
+                        </div>
+
+                        <!-- Dropdown repos selector -->
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label for="github-repo-select">Repository</label>
+                            <select id="github-repo-select" class="theme-select">
+                                <option value="">Loading repositories...</option>
+                            </select>
+                        </div>
+
+                        <!-- Workflow runs wrapper -->
+                        <div class="github-runs-section">
+                            <div class="runs-section-header">
+                                <span class="section-title">Recent Workflow Runs</span>
+                                <button id="btn-refresh-github-runs" class="refresh-runs-btn" title="Refresh runs list">🔄</button>
+                            </div>
+                            
+                            <div class="runs-list-wrapper" id="github-runs-wrapper">
+                                <div class="runs-empty-state">
+                                    Select a repository to inspect pipeline failures.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Platform Hints & Submission -->
+                <div class="form-group" id="platform-hints-group">
+                    <label for="platform-select">Optional Platform Hint</label>
+                    <select id="platform-select" class="theme-select">
+                        <option value="">Auto-Detect Platform</option>
+                        <option value="github">GitHub Actions</option>
+                        <option value="jenkins">Jenkins CI/CD</option>
+                        <option value="gitlab">GitLab CI/CD</option>
+                        <option value="azure">Azure Pipelines</option>
+                        <option value="circleci">CircleCI</option>
+                    </select>
+                </div>
+
+                <button id="btn-run-analysis" class="btn-primary">
+                    <span class="btn-text">Analyze Pipeline Log</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+            </section>
+
+            <!-- Right Panel: Dynamic Analysis Results -->
+            <section class="results-panel glass-card" id="results-card">
+                
+                <!-- Initial Empty/Welcome State -->
+                <div class="empty-state" id="results-empty-state">
+                    <div class="empty-icon">🤖</div>
+                    <h3>Awaiting Log Submission</h3>
+                    <p>Load a pipeline log file on the left or browse your historical analysis runs below to generate interactive diagnostics.</p>
+                </div>
+
+                <!-- Live Loader State -->
+                <div class="loading-state hidden" id="results-loading-state">
+                    <div class="custom-spinner">
+                        <div class="spinner-ring ring-1"></div>
+                        <div class="spinner-ring ring-2"></div>
+                        <div class="spinner-ring ring-3"></div>
+                    </div>
+                    <h3 id="loading-status-text">Ingesting log...</h3>
+                    <p class="loading-desc">Invoking sequence classifier and LLM root cause analysis agents.</p>
+                </div>
+
+                <!-- Content Analysis Result (Initially Hidden) -->
+                <div class="analysis-content hidden" id="analysis-results-content">
+                    
+                    <!-- Report Header -->
+                    <div class="analysis-header">
+                        <div class="failure-title-group">
+                            <span class="platform-badge" id="report-platform">GITHUB</span>
+                            <h3 id="report-failure-type">Dependency Failure</h3>
+                        </div>
+                        <div class="confidence-container">
+                            <div class="confidence-indicator" id="report-confidence-gauge">
+                                <span class="conf-percentage" id="report-confidence-text">95%</span>
+                                <span class="conf-desc">Confidence</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Executive Summary -->
+                    <div class="executive-summary" id="report-summary">
+                        The build system was unable to resolve or fetch dependencies. Specifically, 'requirements.txt' is missing or not present in the workspace root directory, halting python dependency installation.
+                    </div>
+
+                    <!-- Root Cause Details -->
+                    <div class="diagnostic-section">
+                        <h4>🔍 Identified Root Cause</h4>
+                        <div class="root-cause-card">
+                            <p id="report-root-cause">Requirements file 'requirements.txt' was not found in the root directory, causing the python pip installer stage to crash with exit status 1.</p>
+                        </div>
+                    </div>
+
+                    <!-- Evidence Log Snippet (Collapsible Drawer) -->
+                    <div class="diagnostic-section">
+                        <div class="collapsible-header" id="btn-toggle-evidence">
+                            <h4>📋 Extracted Evidence Lines</h4>
+                            <span class="collapse-icon" id="evidence-collapse-icon">▲</span>
+                        </div>
+                        <div class="collapsible-content" id="evidence-drawer-content">
+                            <pre class="evidence-snippet"><code id="report-evidence">2026-06-02T10:14:23Z ERROR: Could not open requirements file: [Errno 2] No such file or directory: 'requirements.txt'
+Process finished with exit code 1</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Remediation Fixes (Actionable Cards) -->
+                    <div class="diagnostic-section">
+                        <h4>🛠️ Actionable Remediation Fixes</h4>
+                        <div class="fixes-grid" id="report-fixes-grid">
+                            <!-- Populated Dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Panel: Historical Runs Vault -->
+        <section class="history-vault-panel glass-card">
+            <div class="vault-header">
+                <div class="vault-title">
+                    <h2>📊 History Vault</h2>
+                    <span class="runs-count" id="runs-history-count">0 analysis runs stored</span>
+                </div>
+                <div class="vault-filters">
+                    <input type="text" id="filter-search-input" placeholder="Search logs by file or error..." class="theme-input">
+                    <button class="btn-secondary" id="btn-refresh-history">🔄 Refresh History</button>
+                </div>
+            </div>
+
+            <!-- Vault Table Container -->
+            <div class="vault-table-container">
+                <table class="vault-table">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>CI/CD Platform</th>
+                            <th>Category</th>
+                            <th>Summary Findings</th>
+                            <th>Timestamp</th>
+                            <th class="actions-col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table-body">
+                        <!-- Populated Dynamically -->
+                        <tr class="table-empty-row">
+                            <td colspan="6" class="text-center">No past runs found. Upload a log file to begin logging history.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Vanilla Javascript Logic -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+Started by user Deekshith
+Running as SYSTEM
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/java-app-build
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+Cloning the remote Git repository
+[Pipeline] }
+[Pipeline] stage
+[Pipeline] { (Compile)
+[Pipeline] sh
++ mvn clean compile
+[INFO] Scanning for projects...
+[INFO] Compiling source files...
+[ERROR] /var/jenkins_home/workspace/java-app-build/src/main/java/com/example/App.java:[23,34] error: cannot find symbol
+  symbol:   method getConfigurationString()
+  location: class com.example.Config
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /var/jenkins_home/workspace/java-app-build/src/main/java/com/example/App.java:[23,34] cannot find symbol
+  symbol:   method getConfigurationString()
+  location: class com.example.Config
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.456 s
+[INFO] Finished at: 2026-06-02T10:18:12Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile (default-compile) on project java-app: Compilation failure: Compilation failure:
+[ERROR] /var/jenkins_home/workspace/java-app-build/src/main/java/com/example/App.java:[23,34] cannot find symbol
+[ERROR]   symbol:   method getConfigurationString()
+[ERROR]   location: class com.example.Config
+[ERROR] -> [Help 1]
+FATAL: command execution failed
+[Pipeline] }
+[Pipeline] Failed in stage 'Compile'
+[Pipeline] }
+[Pipeline] End of Pipeline
+Finished: FAILURE
