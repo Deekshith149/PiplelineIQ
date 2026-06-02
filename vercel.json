@@ -1,14 +1,17 @@
 {
-  "builds": [
+  "cleanUrls": true,
+  "rewrites": [
     {
-      "src": "api/index.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
+      "source": "/styles.css",
+      "destination": "/src/static/styles.css"
+    },
     {
-      "src": "/(.*)",
-      "dest": "/api/index.py"
+      "source": "/app.js",
+      "destination": "/src/static/app.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/src/static/index.html"
     }
   ]
 }
