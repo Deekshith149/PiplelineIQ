@@ -77,13 +77,22 @@ app.add_middleware(
 app.include_router(api_router, prefix="/api/v1")
 
 # Mount Static Files (ensure the folder is created)
-os.makedirs("src/static", exist_ok=True)
-app.mount("/static", StaticFiles(directory="src/static"), name="static")
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+os.makedirs(STATIC_DIR, exist_ok=True)
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+@app.get("/styles.css")
+async def styles():
+    return FileResponse(os.path.join(STATIC_DIR, "styles.css"))
+
+@app.get("/app.js")
+async def app_js():
+    return FileResponse(os.path.join(STATIC_DIR, "app.js"))
 
 # Serve Frontend SPA at Root with API JSON Welcome Fallback
 @app.get("/")
 async def root():
-    index_path = os.path.join("src", "static", "index.html")
+    index_path = os.path.join(STATIC_DIR, "index.html")
     if os.path.exists(index_path):
         return FileResponse(index_path)
     return {
