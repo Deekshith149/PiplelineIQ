@@ -4,6 +4,4 @@ pydantic>=2.0
 pydantic-settings>=2.0
 langgraph>=0.0.10
 google-genai>=0.1.0
-torch>=2.0.0
-transformers>=4.30.0
 watchfiles>=0.19.0

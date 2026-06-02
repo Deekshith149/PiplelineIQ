@@ -1,9 +1,7 @@
 import os
 import re
-import torch
 import logging
 from typing import Dict, Any, List, Optional
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 logger = logging.getLogger("ci_cd_analyzer.distilbert_classifier")
 
@@ -30,7 +28,11 @@ class DistilBertClassifier:
 
     def __init__(self, model_path_or_name: str = "distilbert-base-uncased", load_now: bool = False):
         self.model_path_or_name = model_path_or_name
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        try:
+            import torch
+            self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        except ImportError:
+            self.device = "cpu"
         self.tokenizer = None
         self.model = None
         self._is_fine_tuned = False
@@ -45,6 +47,7 @@ class DistilBertClassifier:
         """Loads the tokenizer and model from model_path_or_name."""
         logger.info(f"Loading tokenizer and model from: {self.model_path_or_name}")
         try:
+            from transformers import AutoTokenizer, AutoModelForSequenceClassification
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_path_or_name)
             
             # Check if this looks like a fine-tuned model with our specific labels
@@ -150,9 +153,9 @@ class DistilBertClassifier:
         if not cleaned_text:
             return {"failure_type": "Unknown Failure", "confidence": 0.50}
 
-        # Mode A: If a verified fine-tuned model exists, use it!
         if self._is_fine_tuned and self.model and self.tokenizer:
             try:
+                import torch
                 inputs = self.tokenizer(
                     cleaned_text,
                     return_tensors="pt",
