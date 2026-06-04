@@ -1,0 +1,390 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — DARK THEME (default)
+   ═══════════════════════════════════════════════════════════════ */
+:root,
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-base: #030712;
+  --bg-surface: #0a0f1e;
+  --bg-elevated: #0d1526;
+  --bg-card: rgba(13, 21, 38, 0.6);
+
+  /* Primary — Electric Blue */
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --electric-blue: #4f8ef7;
+
+  /* Secondary — Indigo */
+  --indigo-400: #818cf8;
+  --indigo-500: #6366f1;
+  --indigo-600: #4f46e5;
+
+  /* Accent — Cyan */
+  --cyan-400: #22d3ee;
+  --cyan-500: #06b6d4;
+
+  /* Purple */
+  --purple-400: #c084fc;
+  --purple-500: #a855f7;
+
+  /* Semantic */
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+
+  /* Text */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+
+  /* Borders */
+  --border-subtle: rgba(99, 102, 241, 0.15);
+  --border-medium: rgba(99, 102, 241, 0.25);
+  --border-glow: rgba(79, 142, 247, 0.4);
+
+  /* Glass card surfaces */
+  --glass-bg: rgba(13, 21, 38, 0.55);
+  --glass-border: rgba(99, 102, 241, 0.12);
+  --glass-hover-border: rgba(99, 102, 241, 0.35);
+  --glass-blur: blur(20px);
+
+  /* Navbar */
+  --navbar-bg: rgba(3, 7, 18, 0.7);
+  --navbar-bg-scrolled: rgba(3, 7, 18, 0.88);
+  --navbar-border: rgba(99, 102, 241, 0.08);
+  --navbar-border-scrolled: rgba(99, 102, 241, 0.2);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #4f8ef7 0%, #6366f1 50%, #a855f7 100%);
+  --gradient-hero: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  --gradient-text: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #c084fc 100%);
+  --gradient-cta: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  --gradient-glow: radial-gradient(ellipse at center, rgba(79, 142, 247, 0.15) 0%, transparent 70%);
+
+  /* Workflow step cards */
+  --step-bg: rgba(13, 21, 38, 0.6);
+  --step-border: rgba(99, 102, 241, 0.15);
+  --step-number-bg: rgba(99, 102, 241, 0.1);
+
+  /* Shadow */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+  /* Blob opacity */
+  --blob-opacity-1: 0.18;
+  --blob-opacity-2: 0.14;
+  --blob-opacity-3: 0.09;
+
+  /* Connector line */
+  --connector-color: rgba(99, 102, 241, 0.25);
+  --connector-dot: rgba(99, 102, 241, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — LIGHT THEME
+   ═══════════════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  /* Backgrounds — clean, bright */
+  --bg-base: #eef2ff;
+  --bg-surface: #f5f7ff;
+  --bg-elevated: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.9);
+
+  /* Primary — keep vivid in light too */
+  --blue-400: #3b82f6;
+  --blue-500: #2563eb;
+  --blue-600: #1d4ed8;
+  --electric-blue: #2563eb;
+
+  /* Indigo */
+  --indigo-400: #6366f1;
+  --indigo-500: #4f46e5;
+  --indigo-600: #4338ca;
+
+  /* Cyan */
+  --cyan-400: #06b6d4;
+  --cyan-500: #0891b2;
+
+  /* Purple */
+  --purple-400: #a855f7;
+  --purple-500: #9333ea;
+
+  /* Semantic */
+  --success: #059669;
+  --error: #dc2626;
+  --warning: #d97706;
+
+  /* Text — sharp dark for readability */
+  --text-primary: #0f172a;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+
+  /* Borders — vivid indigo tint */
+  --border-subtle: rgba(99, 102, 241, 0.2);
+  --border-medium: rgba(99, 102, 241, 0.35);
+  --border-glow: rgba(79, 142, 247, 0.6);
+
+  /* Glass card surfaces — PURE WHITE, strong contrast */
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(99, 102, 241, 0.2);
+  --glass-hover-border: rgba(99, 102, 241, 0.5);
+  --glass-blur: blur(20px);
+
+  /* Navbar — frosted white */
+  --navbar-bg: rgba(238, 242, 255, 0.7);
+  --navbar-bg-scrolled: rgba(255, 255, 255, 0.92);
+  --navbar-border: rgba(99, 102, 241, 0.15);
+  --navbar-border-scrolled: rgba(99, 102, 241, 0.3);
+
+  /* Gradients — same vivid brand colours */
+  --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #a855f7 100%);
+  --gradient-hero: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  --gradient-text: linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #9333ea 100%);
+  --gradient-cta: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%);
+  --gradient-glow: radial-gradient(ellipse at center, rgba(79, 142, 247, 0.12) 0%, transparent 70%);
+
+  /* Workflow step cards — bright white */
+  --step-bg: rgba(255, 255, 255, 0.95);
+  --step-border: rgba(99, 102, 241, 0.18);
+  --step-number-bg: rgba(99, 102, 241, 0.07);
+
+  /* Shadows — coloured indigo tint, NOT dark grey */
+  --shadow-card: 0 4px 24px rgba(99, 102, 241, 0.1), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 20px 60px rgba(99, 102, 241, 0.18), 0 8px 24px rgba(99, 102, 241, 0.1);
+
+  /* Blob opacity — very subtle in light mode */
+  --blob-opacity-1: 0.07;
+  --blob-opacity-2: 0.05;
+  --blob-opacity-3: 0.03;
+
+  /* Connector line */
+  --connector-color: rgba(99, 102, 241, 0.25);
+  --connector-dot: rgba(99, 102, 241, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TAILWIND v4 THEME MAPPING
+   ═══════════════════════════════════════════════════════════════ */
+@theme inline {
+  --color-background: var(--bg-base);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BASE RESET
+   ═══════════════════════════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.97); }
+}
+
+@keyframes blob-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-50px, 40px) scale(1.08); }
+  66% { transform: translate(30px, -30px) scale(0.95); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.07; }
+}
+
+@keyframes float-badge {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Connector line animate */
+@keyframes line-grow {
+  from { transform: scaleY(0); opacity: 0; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+
+/* Step card shine sweep */
+@keyframes shine-sweep {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(300%) skewX(-15deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Gradient text */
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(135deg, var(--blue-400) 0%, var(--indigo-400) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* Navbar glass */
+.navbar-glass {
+  background: var(--navbar-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--navbar-border);
+}
+
+/* Button variants */
+.btn-primary {
+  background: var(--gradient-cta);
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 12px 28px;
+  font-size: 0.9375rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 24px rgba(79, 142, 247, 0.3);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(79, 142, 247, 0.5);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border-radius: 10px;
+  font-weight: 500;
+  padding: 11px 28px;
+  font-size: 0.9375rem;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-secondary:hover {
+  border-color: var(--border-glow);
+  background: rgba(79, 142, 247, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Theme toggle button */
+.theme-toggle-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.theme-toggle-btn:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: var(--text-primary);
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--indigo-500);
+  outline-offset: 2px;
+}

@@ -556,7 +556,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Listen to message callbacks from OAuth popup window
     window.addEventListener("message", (event) => {
-        if (event.origin !== window.location.origin) return;
+        const apiOrigin = new URL(API_BASE).origin;
+        if (event.origin !== window.location.origin && event.origin !== apiOrigin) return;
         
         if (event.data && event.data.type === "GITHUB_OAUTH_SUCCESS") {
             const token = event.data.token;

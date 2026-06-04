@@ -1,17 +1,7 @@
 {
-  "cleanUrls": true,
-  "rewrites": [
-    {
-      "source": "/styles.css",
-      "destination": "/src/static/styles.css"
-    },
-    {
-      "source": "/app.js",
-      "destination": "/src/static/app.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/src/static/index.html"
-    }
-  ]
+  "buildCommand": "cd landing && npm install && npm run build",
+  "outputDirectory": "landing/.next",
+  "installCommand": "cd landing && npm install",
+  "framework": "nextjs",
+  "devCommand": "cd landing && npm run dev"
 }

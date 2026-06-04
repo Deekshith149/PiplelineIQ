@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     # GitHub Integration
     github_client_id: str | None = None
     github_client_secret: str | None = None
+    # For production Render deployments, set this ENV var to: https://YOUR_RENDER_URL.onrender.com/api/v1/auth/github/callback
     github_redirect_uri: str = "http://localhost:8000/api/v1/auth/github/callback"
     
     model_config = SettingsConfigDict(

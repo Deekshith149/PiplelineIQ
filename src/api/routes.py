@@ -377,7 +377,7 @@ async def github_callback(code: Optional[str] = None, error: Optional[str] = Non
                     <button onclick="window.close()" style="background:#e84393;color:#fff;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;margin-top:15px;">Close Window</button>
                     <script>
                         if (window.opener) {{
-                            window.opener.postMessage({{ type: "GITHUB_OAUTH_FAILURE", error: "{error or 'Missing code'}" }}, window.location.origin);
+                            window.opener.postMessage({ type: "GITHUB_OAUTH_FAILURE", error: "{error or 'Missing code'}" }, "*");
                         }}
                         setTimeout(function() {{ window.close(); }}, 4000);
                     </script>
@@ -426,7 +426,7 @@ async def github_callback(code: Optional[str] = None, error: Optional[str] = Non
                         <p>Transferring session back to CI/CD Analyzer dashboard...</p>
                         <script>
                             if (window.opener) {{
-                                window.opener.postMessage({{ type: "GITHUB_OAUTH_SUCCESS", token: "{access_token}" }}, window.location.origin);
+                                window.opener.postMessage({ type: "GITHUB_OAUTH_SUCCESS", token: "{access_token}" }, "*");
                             }}
                             setTimeout(function() {{ window.close(); }}, 1000);
                         </script>
@@ -443,7 +443,7 @@ async def github_callback(code: Optional[str] = None, error: Optional[str] = Non
                     <p style="color:#ff6b6b;">{str(e)}</p>
                     <script>
                         if (window.opener) {{
-                            window.opener.postMessage({{ type: "GITHUB_OAUTH_FAILURE", error: "{str(e)}" }}, window.location.origin);
+                            window.opener.postMessage({ type: "GITHUB_OAUTH_FAILURE", error: "{str(e)}" }, "*");
                         }}
                     </script>
                 </body>

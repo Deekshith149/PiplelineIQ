@@ -32,3 +32,15 @@ Desktop.ini
 
 # Local log files at root
 /*.log
+
+# Next.js build output
+landing/.next/
+landing/out/
+
+# Node modules
+landing/node_modules/
+node_modules/
+
+# Python virtual environment
+.venv/
+venv/
