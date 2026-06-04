@@ -275,7 +275,7 @@ export default function Demo() {
                 <div className="w-3 h-3 rounded-full" style={{ background: '#10b981' }} />
               </div>
               <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
-                ci-analyzer — demo.log
+                pipelineiq — demo.log
               </span>
             </div>
             <div

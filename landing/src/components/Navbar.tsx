@@ -56,7 +56,7 @@ export default function Navbar() {
           <a
             href="#"
             className="flex items-center gap-2.5 select-none group"
-            aria-label="CI/CD Analyzer AI — home"
+            aria-label="PipelineIQ — home"
           >
             <div
               className="w-8 h-8 rounded-lg flex items-center justify-center"
@@ -69,7 +69,7 @@ export default function Navbar() {
               className="font-bold text-base tracking-tight"
               style={{ color: 'var(--text-primary)' }}
             >
-              CI/CD<span className="gradient-text-blue"> Analyzer AI</span>
+              Pipeline<span className="gradient-text-blue">IQ</span>
             </span>
           </a>
 

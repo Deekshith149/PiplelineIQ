@@ -23,8 +23,8 @@ const jetbrainsMono = JetBrains_Mono({
 /* ── SEO Metadata ── */
 export const metadata: Metadata = {
   title: {
-    default: 'CI/CD Analyzer AI — Stop Guessing Why Deployments Fail',
-    template: '%s | CI/CD Analyzer AI',
+    default: 'PipelineIQ — Stop Guessing Why Deployments Fail',
+    template: '%s | PipelineIQ',
   },
   description:
     'AI agents automatically analyze CI/CD pipeline failures, detect root causes with DistilBERT + Gemini, and generate step-by-step remediation fixes. Reduce MTTR by 60%.',
@@ -40,24 +40,24 @@ export const metadata: Metadata = {
     'platform engineering',
     'DevOps automation',
   ],
-  authors: [{ name: 'CI/CD Analyzer AI Team' }],
-  creator: 'CI/CD Analyzer AI',
-  metadataBase: new URL('https://cicd-analyzer.ai'),
+  authors: [{ name: 'PipelineIQ Team' }],
+  creator: 'PipelineIQ',
+  metadataBase: new URL('https://pipelineiq.ai'),
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://cicd-analyzer.ai',
-    title: 'CI/CD Analyzer AI — Stop Guessing Why Deployments Fail',
+    url: 'https://pipelineiq.ai',
+    title: 'PipelineIQ — Stop Guessing Why Deployments Fail',
     description:
       'AI-powered platform that analyzes CI/CD failures, detects root causes, and generates remediation fixes in minutes.',
-    siteName: 'CI/CD Analyzer AI',
+    siteName: 'PipelineIQ',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CI/CD Analyzer AI',
+    title: 'PipelineIQ',
     description:
       'AI-powered platform that analyzes CI/CD failures, detects root causes, and generates remediation fixes in minutes.',
-    creator: '@cicdanalyzerai',
+    creator: '@pipelineiq',
   },
   robots: {
     index: true,

@@ -41,7 +41,7 @@ const socialLinks = [
   { icon: GitBranch, href: '#', label: 'GitHub' },
   { icon: Globe,     href: '#', label: 'Website' },
   { icon: Share2,    href: '#', label: 'Social' },
-  { icon: Mail,      href: 'mailto:hello@cicdanalyzer.ai', label: 'Email' },
+  { icon: Mail,      href: 'mailto:hello@pipelineiq.ai', label: 'Email' },
 ];
 
 /* ─────────────────────────────────────────────
@@ -278,7 +278,7 @@ export default function CTAFooter() {
                   className="font-bold text-base tracking-tight"
                   style={{ color: 'var(--text-primary)' }}
                 >
-                  CI/CD<span className="gradient-text-blue"> Analyzer AI</span>
+                  Pipeline<span className="gradient-text-blue">IQ</span>
                 </span>
               </div>
 
@@ -286,8 +286,8 @@ export default function CTAFooter() {
                 className="text-sm leading-relaxed mb-5 max-w-xs"
                 style={{ color: 'var(--text-secondary)' }}
               >
-                AI-powered CI/CD failure analysis. From raw log to root cause
-                and remediation — in seconds, not hours.
+                AI-powered CI/CD failure analysis — from raw log to root cause
+                and remediation in seconds, not hours.
               </p>
 
               {/* Social links */}
@@ -362,7 +362,7 @@ export default function CTAFooter() {
             className="px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3"
           >
             <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-              © {new Date().getFullYear()} CI/CD Analyzer AI. Built with{' '}
+              © {new Date().getFullYear()} PipelineIQ. Built with{' '}
               <span style={{ color: 'var(--indigo-400)' }}>♥</span> for engineering teams worldwide.
             </p>
 
