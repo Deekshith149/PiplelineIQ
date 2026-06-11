@@ -4,6 +4,7 @@ import './globals.css';
 import CursorGlow from '@/components/CursorGlow';
 import ScrollProgress from '@/components/ScrollProgress';
 import ThemeProvider from '@/components/ThemeProvider';
+import AuthProvider from '@/components/AuthProvider';
 
 /* ── Fonts ── */
 const inter = Inter({
@@ -93,10 +94,12 @@ export default function RootLayout({
     >
       <body className="min-h-full antialiased" style={{ background: 'var(--bg-base)' }}>
         <ThemeProvider>
-          {/* Global UI chrome */}
-          <ScrollProgress />
-          <CursorGlow />
-          {children}
+          <AuthProvider>
+            {/* Global UI chrome */}
+            <ScrollProgress />
+            <CursorGlow />
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

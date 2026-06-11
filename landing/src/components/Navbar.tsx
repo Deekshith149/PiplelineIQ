@@ -102,8 +102,8 @@ export default function Navbar() {
             <ThemeToggle />
 
             <a
-              href="#cta"
-              onClick={(e) => { e.preventDefault(); handleNavClick('#cta'); }}
+              href="/login"
+              id="navbar-start-beta"
               className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-200 hover:scale-105"
               style={{
                 background: 'linear-gradient(135deg, #2563eb, #4f46e5)',
@@ -179,13 +179,15 @@ export default function Navbar() {
                   </li>
                 ))}
                 <li className="mt-2">
-                  <button
-                    onClick={() => handleNavClick('#cta')}
-                    className="w-full py-3 rounded-xl text-sm font-semibold text-white"
+                  <a
+                    href="/login"
+                    id="navbar-mobile-start-beta"
+                    className="block w-full py-3 rounded-xl text-sm font-semibold text-white text-center"
                     style={{ background: 'linear-gradient(135deg, #2563eb, #4f46e5)' }}
+                    onClick={() => setMobileOpen(false)}
                   >
                     Start Beta →
-                  </button>
+                  </a>
                 </li>
               </ul>
             </motion.div>

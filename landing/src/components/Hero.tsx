@@ -266,7 +266,7 @@ export default function Hero() {
               className="flex flex-col sm:flex-row gap-3"
             >
               <a
-                href="#cta"
+                href="/login"
                 id="hero-start-beta"
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-white text-base transition-all duration-200 hover:scale-105 hover:-translate-y-0.5"
                 style={{

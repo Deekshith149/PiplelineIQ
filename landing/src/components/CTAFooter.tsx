@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Zap,
@@ -10,7 +9,6 @@ import {
   Globe,
   Share2,
   CheckCircle2,
-  Loader2,
 } from 'lucide-react';
 
 /* ─────────────────────────────────────────────
@@ -48,18 +46,6 @@ const socialLinks = [
    CTA + Footer component
 ───────────────────────────────────────────── */
 export default function CTAFooter() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim() || status === 'loading') return;
-    setStatus('loading');
-    // Simulate API call
-    await new Promise((r) => setTimeout(r, 1200));
-    setStatus('done');
-  };
-
   const scrollTo = (href: string) => {
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -152,78 +138,59 @@ export default function CTAFooter() {
             analysis in under 2 minutes. No credit card. No setup complexity.
           </motion.p>
 
-          {/* Email signup form */}
+          {/* CTA buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.24 }}
+            className="flex flex-col sm:flex-row gap-3 justify-center"
           >
-            {status === 'done' ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-base font-semibold"
-                style={{
-                  background: 'rgba(16,185,129,0.1)',
-                  border: '1px solid rgba(16,185,129,0.35)',
-                  color: '#10b981',
-                }}
-              >
-                <CheckCircle2 className="w-5 h-5" />
-                You&apos;re on the list! We&apos;ll be in touch soon.
-              </motion.div>
-            ) : (
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
-              >
-                <input
-                  id="cta-email-input"
-                  type="email"
-                  required
-                  placeholder="you@company.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 px-5 py-3.5 rounded-xl text-sm font-medium outline-none transition-all duration-200"
-                  style={{
-                    background: 'var(--glass-bg)',
-                    border: '1px solid var(--glass-border)',
-                    color: 'var(--text-primary)',
-                  }}
-                  onFocus={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.5)';
-                    (e.currentTarget as HTMLElement).style.boxShadow = '0 0 0 3px rgba(99,102,241,0.1)';
-                  }}
-                  onBlur={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'var(--glass-border)';
-                    (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                  }}
-                />
-                <button
-                  id="cta-submit-btn"
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:-translate-y-0.5 disabled:opacity-70 disabled:scale-100 whitespace-nowrap"
-                  style={{
-                    background: 'linear-gradient(135deg, #2563eb, #4f46e5)',
-                    boxShadow: '0 0 28px rgba(79,142,247,0.4)',
-                  }}
-                >
-                  {status === 'loading' ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      Get Early Access
-                      <ArrowRight className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
+            <a
+              id="cta-start-free-btn"
+              href="/login"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-white text-base transition-all duration-200 hover:scale-105 hover:-translate-y-0.5"
+              style={{
+                background: 'linear-gradient(135deg, #2563eb, #4f46e5)',
+                boxShadow: '0 0 32px rgba(79,142,247,0.4)',
+              }}
+            >
+              <Zap className="w-4 h-4" />
+              Start Free — Sign In
+              <ArrowRight className="w-4 h-4" />
+            </a>
 
-            {/* Trust indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-5 mt-6">
+            <a
+              id="cta-watch-demo-btn"
+              href="#demo"
+              onClick={(e) => { e.preventDefault(); scrollTo('#demo'); }}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5"
+              style={{
+                border: '1px solid rgba(99,102,241,0.25)',
+                color: 'var(--text-primary)',
+                background: 'rgba(99,102,241,0.06)',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.5)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(99,102,241,0.12)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.25)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(99,102,241,0.06)';
+              }}
+            >
+              Watch Demo
+            </a>
+          </motion.div>
+
+          {/* Trust indicators */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="flex flex-wrap items-center justify-center gap-5 mt-6"
+          >
               {[
                 'No credit card required',
                 'Cancel anytime',
@@ -238,7 +205,6 @@ export default function CTAFooter() {
                   {item}
                 </span>
               ))}
-            </div>
           </motion.div>
         </div>
       </section>
