@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: pipelineiq-api
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn src.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false          # Set this in Render dashboard
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: LOG_LEVEL
+        value: INFO
+      - key: GITHUB_CLIENT_ID
+        sync: false          # Set this in Render dashboard
+      - key: GITHUB_CLIENT_SECRET
+        sync: false          # Set this in Render dashboard
+      - key: GITHUB_REDIRECT_URI
+        sync: false          # Will be: https://YOUR_RENDER_URL/api/v1/auth/github/callback
+    healthCheckPath: /api/v1/health
