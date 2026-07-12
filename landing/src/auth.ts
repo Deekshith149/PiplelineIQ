@@ -18,7 +18,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.AUTH_GITHUB_SECRET!,
       authorization: {
         params: {
-          prompt: 'login',
+          prompt: 'consent',
         },
       },
     }),
