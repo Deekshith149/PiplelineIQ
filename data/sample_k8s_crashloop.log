@@ -1,0 +1,46 @@
+2026-03-18T16:05:00.000Z [INFO]  GitLab CI Pipeline #1842: Deploy to Production
+2026-03-18T16:05:00.200Z [INFO]  Project: infra/kubernetes-deployments
+2026-03-18T16:05:00.400Z [INFO]  Runner: gitlab-runner-k8s-03
+
+[16:05:01] $ kubectl config use-context gke_acme-prod_us-central1_prod-cluster
+Switched to context "gke_acme-prod_us-central1_prod-cluster".
+
+[16:05:02] $ kubectl apply -f k8s/deployments/api-deployment.yaml
+deployment.apps/api-service configured
+
+[16:05:03] $ kubectl rollout status deployment/api-service --timeout=300s
+Waiting for deployment "api-service" rollout to finish: 0 of 3 updated replicas are available...
+Waiting for deployment "api-service" rollout to finish: 1 of 3 updated replicas are available...
+Waiting for deployment "api-service" rollout to finish: 1 of 3 updated replicas are available...
+
+[16:08:45] error: deployment "api-service" exceeded its progress deadline
+
+[16:08:45] $ kubectl describe deployment api-service
+Name:               api-service
+Namespace:          production
+...
+Conditions:
+  Type             Status  Reason
+  ----             ------  ------
+  Progressing      False   ProgressDeadlineExceeded
+  Available        False   MinimumReplicasUnavailable
+
+[16:08:46] $ kubectl get pods -n production -l app=api-service
+NAME                           READY   STATUS             RESTARTS   AGE
+api-service-7d9f8b6c4-xk2pl   0/1     CrashLoopBackOff   4          3m41s
+api-service-7d9f8b6c4-r9mnq   0/1     CrashLoopBackOff   4          3m39s
+api-service-7d9f8b6c4-p5vws   0/1     OOMKilled          2          3m38s
+
+[16:08:47] $ kubectl logs api-service-7d9f8b6c4-xk2pl --previous
+Traceback (most recent call last):
+  File "/app/src/main.py", line 12, in <module>
+    from src.database import engine
+  File "/app/src/database.py", line 8, in <module>
+    DATABASE_URL = os.environ["DATABASE_URL"]
+KeyError: 'DATABASE_URL'
+
+ERROR: Container exited with code 1
+
+[16:08:48] Deployment failed. Rolling back to previous revision...
+[16:08:50] Rolled back to revision 23 (api-service:v3.1.4)
+[16:08:52] ERROR: Job failed: exit code 1

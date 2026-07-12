@@ -1,0 +1,50 @@
+2026-02-10T07:45:00.000Z [INFO]  Starting Terraform deployment pipeline
+2026-02-10T07:45:00.200Z [INFO]  Environment: production | Region: us-east-1
+2026-02-10T07:45:00.500Z [INFO]  Triggered by: scheduled deployment (08:00 UTC)
+
+##[group]Terraform Init
+2026-02-10T07:45:02.000Z [INFO]  Initializing the backend...
+
+Initializing provider plugins...
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Reusing previous version of hashicorp/random from the dependency lock file
+
+Terraform has been successfully initialized!
+
+2026-02-10T07:45:08.000Z [INFO]  Backend initialized: s3://acme-terraform-state/prod
+##[endgroup]
+
+##[group]Terraform Plan
+2026-02-10T07:45:10.000Z [INFO]  Running: terraform plan -out=tfplan -var-file=prod.tfvars
+╷
+│ Error: Error acquiring the state lock
+│
+│ Error message: ConditionalCheckFailedException: The conditional
+│ request failed
+│
+│ Lock Info:
+│   ID:        3f8a21b9-4c2d-4e7f-a1b0-d5e6f8c3a912
+│   Path:      s3://acme-terraform-state/prod/terraform.tfstate
+│   Operation: OperationTypePlan
+│   Who:       github-actions@ip-10-0-2-87
+│   Version:   1.6.4
+│   Created:   2026-02-10 07:12:44.217 +0000 UTC
+│   Info:      
+╵
+
+Terraform acquires a state lock to protect the state from being
+written by multiple users at the same time. The lock was created by
+a previous run that likely failed or was cancelled without releasing
+the lock.
+
+Please resolve the issue above and try again. For most commands,
+you can disable locking with the "-lock=false" flag, but this is
+not recommended in production environments.
+
+##[error]Process completed with exit code 1.
+##[endgroup]
+
+2026-02-10T07:45:14.000Z [ERROR] Terraform plan failed — state lock held by previous job
+2026-02-10T07:45:14.100Z [ERROR] Lock ID: 3f8a21b9-4c2d-4e7f-a1b0-d5e6f8c3a912
+2026-02-10T07:45:14.200Z [ERROR] Lock was created 32 minutes ago — may indicate a stuck pipeline
+2026-02-10T07:45:14.300Z [ERROR] Job 'terraform-deploy' failed after 14s

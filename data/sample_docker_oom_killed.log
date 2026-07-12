@@ -1,0 +1,47 @@
+2026-01-20T14:33:01.000Z [INFO]  GitHub Actions: Build & Push Docker Image
+2026-01-20T14:33:01.200Z [INFO]  Branch: main | Commit: a7f3c91
+2026-01-20T14:33:02.100Z [INFO]  Setting up Docker Buildx
+
+##[group]Build Docker image: api-service:latest
+2026-01-20T14:33:05.000Z [INFO]  docker buildx build --platform linux/amd64 -t acme/api-service:latest .
+Step 1/14 : FROM python:3.11-slim AS base
+Step 2/14 : WORKDIR /app
+Step 3/14 : RUN apt-get update && apt-get install -y gcc libpq-dev curl
+Step 4/14 : COPY requirements.txt .
+Step 5/14 : RUN pip install --no-cache-dir -r requirements.txt
+
+Collecting torch==2.1.2
+  Downloading torch-2.1.2-cp311-cp311-linux_x86_64.whl (664.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ 660.2/664.8 MB 3.2 MB/s eta 0:00:01
+
+Collecting transformers==4.36.2
+  Downloading transformers-4.36.2-py3-none-any.whl (8.7 MB)
+
+Installing collected packages: torch, transformers, numpy, ...
+
+Step 6/14 : COPY src/ ./src/
+Step 7/14 : RUN python -c "from transformers import AutoModel; AutoModel.from_pretrained('distilbert-base-uncased')"
+
+Downloading model: distilbert-base-uncased
+Model files: 100%|██████████| 263M/263M [02:14<00:00, 1.95MB/s]
+
+Step 8/14 : RUN python -m pytest src/tests/ --tb=short -q
+
+Killed
+##[error]The process '/usr/bin/docker' failed with exit code 137
+
+Build summary:
+  Error: buildkit failed with: exit code: 137
+  OOMKilled: true
+  Container memory limit: 512MB
+  Container memory usage at kill: 587MB
+
+  The Linux OOM Killer terminated the build process.
+  The build consumed more memory than the runner's limit.
+
+##[error]Process completed with exit code 137.
+##[endgroup]
+
+2026-01-20T14:45:21.000Z [ERROR] Job 'docker-build' failed after 12m 20s
+2026-01-20T14:45:21.100Z [ERROR] Step 'Build Docker image' failed with exit code 137 (OOMKilled)
+2026-01-20T14:45:21.200Z [ERROR] Annotation: Increase runner memory or use self-hosted runner with more RAM.

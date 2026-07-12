@@ -1,0 +1,55 @@
+2026-01-15T09:12:03.412Z [INFO]  Starting GitHub Actions workflow: CI/CD Pipeline
+2026-01-15T09:12:03.501Z [INFO]  Triggered by: push to branch 'feat/payment-refactor'
+2026-01-15T09:12:04.100Z [INFO]  Runner: ubuntu-22.04, Node: 18.x
+
+##[group]Set up job
+2026-01-15T09:12:05.201Z [INFO]  Prepare all required actions
+2026-01-15T09:12:05.450Z [INFO]  Getting action download info
+2026-01-15T09:12:07.312Z [INFO]  Download action repository 'actions/checkout@v4'
+2026-01-15T09:12:08.002Z [INFO]  Download action repository 'actions/setup-node@v4'
+##[endgroup]
+
+##[group]Checkout repository
+2026-01-15T09:12:09.010Z [INFO]  Syncing repository: acme-corp/payment-service
+2026-01-15T09:12:09.411Z [INFO]  Getting Git version info
+2026-01-15T09:12:09.702Z [INFO]  Initializing the repository
+2026-01-15T09:12:10.003Z [INFO]  Checking out the ref: refs/heads/feat/payment-refactor
+##[endgroup]
+
+##[group]Setup Node.js 18.x
+2026-01-15T09:12:11.201Z [INFO]  Attempting to resolve the requested version 18.x
+2026-01-15T09:12:11.550Z [INFO]  Resolved to Node.js version 18.20.5
+2026-01-15T09:12:12.010Z [INFO]  Node.js 18.20.5 was found in the cache.
+##[endgroup]
+
+##[group]Run npm install
+2026-01-15T09:12:13.001Z [INFO]  /usr/bin/bash -e /home/runner/work/_temp/action_script.sh
+
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @stripe/stripe-js@2.4.0
+npm warn Found: react@18.2.0
+
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR!
+npm ERR! While resolving: payment-service@3.1.0
+npm ERR! Found: react@18.2.0
+npm ERR! node_modules/react
+npm ERR!   react@"^18.2.0" from the root project
+npm ERR!
+npm ERR! Could not resolve dependency:
+npm ERR! peer react@"^17.0.0 || ^16.0.0" from react-stripe-js@1.16.5
+npm ERR! node_modules/react-stripe-js
+npm ERR!   react-stripe-js@"1.16.5" from the root project
+npm ERR!
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force, or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR!
+npm ERR! See /home/runner/.npm/_logs/2026-01-15T09_12_13_001Z-debug-0.log for details.
+
+##[error]Process completed with exit code 1.
+##[endgroup]
+
+2026-01-15T09:12:14.003Z [ERROR] Job 'install-dependencies' failed after 1m 01s
+2026-01-15T09:12:14.103Z [ERROR] Workflow failed: CI/CD Pipeline

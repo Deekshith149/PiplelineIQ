@@ -1,24 +1,24 @@
-# ⚡ AI-Powered CI/CD Log Analyzer Dashboard
+# ⚡ PipelineIQ — AI-Powered CI/CD Failure Intelligence
 
-An advanced, multi-agent AI intelligence platform designed to ingest CI/CD pipeline logs, dissect complex failure streams, isolate original root causes (filtering out cascading errors), and compile high-priority, step-by-step remediation fixes.
+**PipelineIQ** is a production-grade, multi-agent AI platform that automatically analyzes CI/CD pipeline failures, identifies root causes using DistilBERT + Gemini, and delivers prioritized step-by-step remediation — in seconds, not hours.
+
+> Stop guessing why deployments fail. Let AI diagnose it for you.
 
 ---
 
 ## 🚀 Key Features
 
-* **Multi-Agent Diagnostics (LangGraph)**: Sequential pipeline executing structured ingestion, regex parsing, machine learning classification, LLM root cause analysis, and remediation generation.
-* **Regex Parser Agent**: Safely normalizes character encodings, extracts timestamps, retrieves exit status codes, identifies Python/Java/Node stack traces, and segments execution stages.
-* **DistilBERT Sequence Classifier Agent**: Predicts failure categories (Dependency, Test, Docker, Compilation, Environment, Infrastructure, etc.) using a PyTorch classification head with zero-shot rule fallbacks.
-* **Gemini Root Cause Agent**: Analyzes error segments using Google Gemini to identify the fundamental primary bug and flag exact trace evidence lines.
-* **Gemini Remediation Agent**: Formulates step-by-step resolution fixes grouped by priority (High, Medium, Low).
-* **🐙 GitHub Actions Integration**: Connect seamlessly via GitHub OAuth or a Personal Access Token (PAT) directly in the dashboard to choose a repository, browse recent workflow execution runs, and run live diagnostics.
-* **Premium Glassmorphic Dashboard**: Beautiful, responsive, edge-lit dark-mode UI with circular confidence meters, collapsible trace drawers, action guidelines, and a SQLite-connected **History Vault** to search, load, or delete past diagnostics.
+- **Multi-Agent LangGraph Pipeline** — Sequential orchestration: Ingestion → Parsing → Classification → Root Cause → Remediation → Reporting.
+- **DistilBERT Classifier** — ML-powered failure category prediction across 8+ types (Dependency, Test, Docker, Compilation, Environment, Infrastructure, etc.) with PyTorch classification head and zero-shot fallbacks.
+- **Gemini Root Cause Agent** — Isolates the primary failure from cascading noise, pinpoints exact evidence lines.
+- **Gemini Remediation Agent** — Generates High / Medium / Low priority step-by-step fix instructions.
+- **GitHub Actions Integration** — Connect via OAuth or PAT to browse repositories, select workflow runs, and stream live CI/CD logs directly into the analysis engine.
+- **Premium Next.js Landing Page** — Glassmorphic SaaS landing page with dark/light mode, animated counters, interactive demo, comparison table, contact-based pricing, and CTA.
+- **History Vault** — SQLite-backed report storage with search, load, and delete across all past analyses.
 
 ---
 
 ## 🛠️ Architecture
-
-The pipeline uses LangGraph to coordinate the sequential flow of state data across the AI agents:
 
 ```mermaid
 graph TD
@@ -35,85 +35,114 @@ graph TD
 
 ## 💻 Tech Stack
 
-* **Backend**: FastAPI, LangGraph, Pydantic, PyTorch, Hugging Face Transformers, SQLite3.
-* **Frontend**: HTML5, Vanilla CSS3 (Custom Glassmorphism), JavaScript (Vanilla ES6).
-* **Cloud & Deployments**: Docker, Vercel SPA (Static Frontend), Render / Google Cloud Run (Containerized Backend).
+| Layer | Technologies |
+|---|---|
+| **Backend** | FastAPI, LangGraph, Pydantic, PyTorch, Hugging Face Transformers, SQLite3 |
+| **AI Models** | DistilBERT (classification), Google Gemini 1.5 Pro (RCA + remediation) |
+| **Landing Page** | Next.js 16, Tailwind CSS v4, Framer Motion, next-themes |
+| **Deployment** | Docker (backend), Vercel (landing page), Render / Google Cloud Run (API) |
 
 ---
 
-## 🏁 Quick Start & Setup
+## 🏁 Quick Start
 
 ### 1. Prerequisites
-Ensure you have Python 3.10+ installed on your system.
+- Python 3.10+
+- Node.js 18+ (for landing page)
 
-### 2. Clone the Repository & Install Dependencies
+### 2. Clone & Install
 ```bash
-git clone https://github.com/Deekshith149/ci-cd-log-analyzer.git
-cd ci-cd-log-analyzer
+git clone https://github.com/Deekshith149/pipelineiq.git
+cd pipelineiq
 
-# Initialize virtual environment (optional but recommended)
+# Backend dependencies
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install requirements
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+
+# Landing page dependencies
+cd landing && npm install && cd ..
 ```
 
 ### 3. Environment Configuration
-Create a `.env` file in the root directory (based on our sample setup):
+Create a `.env` file in the root directory:
 ```env
-# Google AI Studio Gemini API Key
+# Google AI Studio — Gemini API Key
 GEMINI_API_KEY=your_gemini_api_key_here
 
-# (Optional) GitHub Integration OAuth keys
-# Leave blank to connect instantly using Personal Access Tokens (PATs) in the UI
+# GitHub OAuth (optional — use PAT in UI instead)
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
 GITHUB_REDIRECT_URI=http://localhost:8000/api/v1/auth/github/callback
 ```
 
-### 4. Initialize Database and Run Server
+### 4. Run the Backend
 ```bash
 python -m src.main
 ```
-The application will launch on **[http://localhost:8000](http://localhost:8000)**.
+API launches on **[http://localhost:8000](http://localhost:8000)**
+
+### 5. Run the Landing Page (dev)
+```bash
+cd landing
+npm run dev
+```
+Landing page at **[http://localhost:3000](http://localhost:3000)**
 
 ---
 
 ## 🧪 Testing
 
-Execute the test suites to verify backend endpoints, state graphs, regex patterns, and GitHub connectors:
-
 ```bash
-# Run the complete test suite
+# Full test suite
 python -m pytest
 
-# Run only the GitHub Actions connector tests
+# GitHub connector tests only
 python -m pytest src/tests/test_github.py
 ```
 
 ---
 
-## 🐳 Cloud Deployment (Split-Architecture)
+## 🐳 Deployment
 
-To maintain optimal package sizes for deep learning engines (`torch` & `transformers`), we use a modern split-architecture:
-
-### 1. Backend (Render / Google Cloud Run / Docker)
-The repository includes a ready-to-use [`Dockerfile`](./Dockerfile) for containerized hosting:
+### Backend — Docker / Cloud Run
 ```bash
-# Build the container
-docker build -t ci-cd-log-analyzer .
+# Build and run locally
+docker build -t pipelineiq .
+docker run -d -p 8000:8000 --env-file .env pipelineiq
 
-# Run the container
-docker run -d -p 8000:8000 --env-file .env ci-cd-log-analyzer
-```
-For Cloud Run, deploy directly from source:
-```bash
-gcloud run deploy ci-cd-log-analyzer --source . --port 8000 --allow-unauthenticated
+# Google Cloud Run
+gcloud run deploy pipelineiq --source . --port 8000 --allow-unauthenticated
 ```
 
-### 2. Frontend (Vercel SPA edge hosting)
-1. In [`src/static/app.js`](./src/static/app.js) line 7, replace the fallback URL placeholder with your deployed backend's production API domain.
-2. Link your Git repository to Vercel.
-3. Set Vercel's **Root Directory** project setting to **`src/static`**.
-4. Click **Deploy**!
+### Landing Page — Vercel
+1. Connect the `pipelineiq` GitHub repository to [Vercel](https://vercel.com)
+2. Set **Root Directory** to `landing`
+3. Framework: **Next.js** (auto-detected)
+4. Click **Deploy** — auto-deploys on every push to `main`
+
+---
+
+## 📁 Project Structure
+
+```
+pipelineiq/
+├── landing/                 # Next.js SaaS landing page
+│   └── src/
+│       ├── app/             # Next.js App Router (layout, page, globals.css)
+│       └── components/      # Hero, Features, Workflow, Demo, Metrics, Pricing...
+├── src/                     # Python FastAPI backend
+│   ├── agents/              # LangGraph AI agents
+│   ├── api/                 # FastAPI routes
+│   ├── classifier/          # DistilBERT classifier
+│   └── static/              # Legacy static frontend
+├── Dockerfile
+├── requirements.txt
+└── vercel.json
+```
+
+---
+
+## 📄 License
+
+MIT © 2026 PipelineIQ

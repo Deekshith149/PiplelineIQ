@@ -67,8 +67,11 @@ app = FastAPI(
 # Configure CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
     allow_credentials=False,
+    allow_origins=[
+        "*",  # Demo mode — restrict to your Vercel domain in production
+        # "https://pipelineiq.vercel.app",
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )

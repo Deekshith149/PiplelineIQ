@@ -1,0 +1,48 @@
+2026-04-02T08:00:00.000Z [INFO]  CircleCI Pipeline: microservices-monorepo
+2026-04-02T08:00:00.300Z [INFO]  Workflow: build-test-deploy | Job: integration-tests
+2026-04-02T08:00:00.600Z [INFO]  Executor: machine (ubuntu-2204:2024.01.1)
+
+=====> Checking out code
+=====> Setting up environment
+
+$ docker-compose up -d postgres redis
+Creating network "app_default" with the default driver
+Pulling postgres (postgres:15)...
+Pulling redis (redis:7-alpine)...
+Creating app_postgres_1 ... done
+Creating app_redis_1 ... done
+
+$ sleep 5  # Wait for services to be ready
+$ python manage.py migrate
+
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions, users, payments
+
+Running migrations:
+  Applying users.0001_initial... OK
+  Applying users.0002_add_stripe_fields... OK
+  Applying payments.0001_initial... OK
+  Applying payments.0003_add_webhook_table...
+
+django.db.utils.ProgrammingError: relation "payments_webhook" already exists
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "manage.py", line 22, in <module>
+    execute_from_command_line(sys.argv)
+  File "/home/circleci/.pyenv/versions/3.11.8/lib/python3.11/site-packages/django/core/management/__init__.py", line 442, in execute_from_command_line
+    utility.execute()
+  File "/home/circleci/.pyenv/versions/3.11.8/lib/python3.11/site-packages/django/core/management/__init__.py", line 436, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  ...
+  File "/home/circleci/.pyenv/versions/3.11.8/lib/python3.11/site-packages/django/db/backends/utils.py", line 89, in execute
+    return super().execute(sql, params)
+django.db.utils.ProgrammingError: relation "payments_webhook" already exists
+
+Error: Migration 0003_add_webhook_table failed. The database schema is inconsistent.
+Hint: Run 'python manage.py migrate --fake payments 0003' to mark as applied, or restore from backup.
+
+Exited with code exit status 1
+
+CircleCI received exit code 1
